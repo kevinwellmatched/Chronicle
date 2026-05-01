@@ -81,3 +81,11 @@ Durable decisions live here so agents do not rediscover or reverse them casually
 - **Decision:** Use `@supabase/ssr` with separate browser, server, and proxy helpers. Use `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 - **Reason:** Supabase's current Next.js App Router guidance uses cookie-aware SSR clients and publishable keys. This keeps auth/session handling ready for future protected routes without adding auth UI in Issue 0.4.
 - **Consequences:** Do not use deprecated auth-helper packages. Do not expose service-role or secret keys in client code. Keep environment lookup lazy so builds do not fail before `.env.local` is configured.
+
+## DEC-0011: Migration-First Database Changes
+
+- **Date:** 2026-05-01
+- **Status:** Accepted
+- **Decision:** Track database schema work through committed Supabase migration files under `/supabase/migrations`.
+- **Reason:** The project needs a repeatable database history that Codex, GitHub, Vercel, and Supabase can all inspect. Dashboard-only schema changes are too easy to lose or forget.
+- **Consequences:** Future schema PRs must include migrations, update `/docs/DATA-MODEL.md`, and enable RLS on exposed tables before player-facing access exists.
