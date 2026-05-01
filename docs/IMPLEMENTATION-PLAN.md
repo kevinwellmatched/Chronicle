@@ -70,6 +70,8 @@ Deliverables:
 
 Goal: create a minimal app foundation.
 
+Status: implemented in the `codex/initialize-next-app` branch.
+
 Scope:
 
 - Next.js App Router
