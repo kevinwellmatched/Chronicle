@@ -95,6 +95,8 @@ Scope:
 
 Goal: prepare auth/database integration safely.
 
+Status: implemented in the `codex/supabase-config-pattern` branch.
+
 Scope:
 
 - Supabase browser/server client setup

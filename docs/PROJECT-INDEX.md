@@ -14,6 +14,7 @@ Current repository state:
 
 - Documentation spine
 - Minimal Next.js app scaffold
+- Supabase client configuration pattern
 - No database migrations yet
 - No runtime product features yet
 
@@ -25,6 +26,8 @@ The app currently has a minimal Chronicle-branded Next.js shell only. The first 
 
 - `/docs`: Product, architecture, roadmap, and agent planning documents.
 - `/src/app`: Next.js App Router routes.
+- `/src/lib/supabase`: Supabase browser, server, and proxy helpers.
+- `/src/lib/env.ts`: Required environment variable accessors.
 - Future `/public`: Static public assets.
 - Future `/components`: Shared React components.
 - Future `/lib`: Supabase clients, data access helpers, utilities, and server logic.
@@ -62,8 +65,6 @@ The app currently has a minimal Chronicle-branded Next.js shell only. The first 
 
 ## Next Recommended Tasks
 
-1. Add or refine project check commands, including a typecheck script.
-2. Add Supabase client configuration pattern without committing secrets.
-3. Create initial Supabase migration folder.
-4. Implement auth shell and workspace foundation.
-5. Add worlds, campaigns, entries, hierarchy, tags, search, visibility, and export in small PRs.
+1. Create initial Supabase migration folder.
+2. Implement auth shell and workspace foundation.
+3. Add worlds, campaigns, entries, hierarchy, tags, search, visibility, and export in small PRs.
