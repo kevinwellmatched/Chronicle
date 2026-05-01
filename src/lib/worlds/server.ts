@@ -8,6 +8,11 @@ export type WorldListItem = {
   createdAt: string;
 };
 
+export type WorldOption = {
+  id: string;
+  name: string;
+};
+
 type WorldRow = {
   id: string;
   name: string;
@@ -39,4 +44,21 @@ export async function listActiveWorlds(
     description: world.description ?? "",
     createdAt: world.created_at,
   }));
+}
+
+export async function listWorldOptions(workspaceId: string): Promise<WorldOption[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("worlds")
+    .select("id, name")
+    .eq("workspace_id", workspaceId)
+    .is("archived_at", null)
+    .order("name", { ascending: true })
+    .returns<WorldOption[]>();
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data;
 }

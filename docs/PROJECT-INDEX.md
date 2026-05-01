@@ -19,11 +19,12 @@ Current repository state:
 - Private Supabase Auth shell with magic-link sign-in, sign-out, and protected `/app`
 - Workspace foundation with `profiles`, `workspaces`, and `workspace_members`
 - World foundation with active-workspace world creation and listing
-- No campaign, entry, or content database schema yet
+- Campaign foundation with active-workspace campaign creation and listing
+- No entry or content database schema yet
 
 ## Current App Capabilities
 
-The app currently has a Chronicle-branded public shell, a private `/login` magic-link flow, a protected `/app` shell, manual first-workspace creation at `/app/workspace`, and active-workspace world creation/listing at `/app/worlds`. The next product capability target is campaign creation.
+The app currently has a Chronicle-branded public shell, a private `/login` magic-link flow, a protected `/app` shell, manual first-workspace creation at `/app/workspace`, active-workspace world creation/listing at `/app/worlds`, and campaign creation/listing at `/app/campaigns`. The next product capability target is entries CRUD.
 
 ## Major Directories
 
@@ -64,12 +65,12 @@ The app currently has a Chronicle-branded public shell, a private `/login` magic
 
 ## Current Known Limitations
 
-- No campaign, entry, tag, search, visibility, or export features.
+- No entry, tag, search, visibility, or export features.
 - No deployment configuration.
 - Auth is sign-in only. Allowed users must already exist in Supabase Auth.
 - Only the first workspace is selected as active; workspace switching is deferred.
 
 ## Next Recommended Tasks
 
-1. Add campaigns.
-2. Add entries, hierarchy, tags, search, visibility, and export in small PRs.
+1. Add entries CRUD.
+2. Add hierarchy, tags, search, visibility, and export in small PRs.

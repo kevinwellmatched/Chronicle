@@ -24,7 +24,7 @@ Deliverables:
 - Supabase Auth: implemented with private magic-link sign-in
 - Workspace model: implemented with manual first-workspace creation
 - Create/list worlds: implemented for active workspace
-- Create/list campaigns linked to worlds
+- Create/list campaigns linked to worlds: implemented for active workspace
 - Create/edit/archive entries
 - Nested entry hierarchy
 - Markdown editor/viewer
