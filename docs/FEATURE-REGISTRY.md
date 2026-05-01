@@ -15,7 +15,7 @@ Feature status values:
 | Supabase client setup | Foundation | Implemented | 0 | Client/server/proxy configuration pattern without secrets. | App scaffold | Uses publishable key env vars; service role keys must never enter client code. |
 | Supabase migration convention | Foundation | Implemented | 0 | Migration folder, seed placeholder, and database workflow rules. | Supabase client setup | No schema tables or migrations yet. |
 | Auth shell | Foundation | Implemented | 1 | Private magic-link sign-in, sign-out, and protected `/app` shell using Supabase Auth. | Supabase setup | Uses sign-in only with `shouldCreateUser: false`; allowed users must exist in Supabase Auth. |
-| Workspace model | Foundation | Planned | 1 | One private workspace per user initially, multi-workspace-compatible model. | Auth shell | Use `workspace_members` for future expansion. |
+| Workspace model | Foundation | Implemented | 1 | One private workspace can be created and selected as the active app scope. | Auth shell | Adds `profiles`, `workspaces`, and `workspace_members` with RLS. |
 | World creation | Worldbuilding | Planned | 1 | Create and list reusable setting containers. | Workspace model | Worlds can exist without campaigns. |
 | Campaign creation | Campaign Management | Planned | 1 | Create campaigns linked to worlds. | World creation | Campaigns hold play-state. |
 | Entries CRUD | Worldbuilding | Planned | 1 | Create, read, update, archive/delete entries. | Worlds, campaigns | Universal content primitive. |

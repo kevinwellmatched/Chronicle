@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getLoginPath } from "@/lib/auth/redirect";
 import { createClient } from "@/lib/supabase/server";
+import { getActiveWorkspace } from "@/lib/workspaces/server";
 
 import { signOut } from "./actions";
 
@@ -12,6 +14,12 @@ export default async function AppHomePage() {
 
   if (error || !claims) {
     redirect(getLoginPath("/app"));
+  }
+
+  const workspace = await getActiveWorkspace();
+
+  if (!workspace) {
+    redirect("/app/workspace");
   }
 
   const email = typeof claims.email === "string" ? claims.email : "Signed in";
@@ -25,18 +33,29 @@ export default async function AppHomePage() {
               Chronicle Gaming Hub
             </p>
             <h1 className="mt-2 text-2xl font-semibold tracking-normal text-white">
-              App shell
+              {workspace.name}
             </h1>
+            <p className="mt-1 text-sm text-zinc-400">
+              Active workspace · {workspace.role}
+            </p>
           </div>
 
-          <form action={signOut}>
-            <button
-              type="submit"
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/app/workspace"
               className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.05]"
             >
-              Sign out
-            </button>
-          </form>
+              Workspace
+            </Link>
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.05]"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </header>
 
         <div className="grid flex-1 place-items-center py-16">
@@ -45,13 +64,16 @@ export default async function AppHomePage() {
               Phase 1
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-normal text-white">
-              Welcome to the protected Chronicle shell.
+              Chronicle is scoped to your workspace.
             </h2>
             <p className="mt-4 leading-7 text-zinc-300">
               You are signed in as{" "}
-              <span className="font-medium text-zinc-100">{email}</span>. The
-              workspace, world, and campaign systems will land in focused
-              follow-up slices.
+              <span className="font-medium text-zinc-100">{email}</span>.
+              World and campaign tools will use{" "}
+              <span className="font-medium text-zinc-100">
+                {workspace.name}
+              </span>{" "}
+              as their active workspace.
             </p>
           </div>
         </div>

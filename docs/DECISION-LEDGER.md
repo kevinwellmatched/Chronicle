@@ -97,3 +97,11 @@ Durable decisions live here so agents do not rediscover or reverse them casually
 - **Decision:** Implement the first auth shell with Supabase email magic links, sign-in only, and `shouldCreateUser: false`.
 - **Reason:** Chronicle is private personal-use software. Magic-link sign-in keeps the first Phase 1 PR small and avoids password reset, public signup, and account lifecycle scope.
 - **Consequences:** Allowed users must be created or invited in Supabase Auth before they can sign in. The app must configure Supabase redirect URLs for local and deployed `/auth/confirm` callbacks.
+
+## DEC-0013: Manual First Workspace
+
+- **Date:** 2026-05-01
+- **Status:** Accepted
+- **Decision:** Let signed-in users manually create their first workspace instead of automatically creating one on login.
+- **Reason:** The workspace name is user-facing and should be chosen intentionally. Manual creation also keeps the first workspace PR easy to review.
+- **Consequences:** `/app` redirects signed-in users without a workspace to `/app/workspace`. Until a workspace switcher exists, the earliest membership is treated as the active workspace.

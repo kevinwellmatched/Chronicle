@@ -2,7 +2,7 @@
 
 Chronicle Engine is the private planning and codebase foundation for **Chronicle Gaming Hub**, a personal-use tabletop RPG operating system for worlds, campaigns, reusable content libraries, rules packages, builders, live GM tools, and player portals.
 
-This repository is starting with a docs-only foundation. The first build target is **MVP 0.1: Private World/Campaign Wiki**.
+This repository is building toward **MVP 0.1: Private World/Campaign Wiki**. The current app foundation includes Supabase magic-link auth and first-workspace creation.
 
 ## Product Direction
 

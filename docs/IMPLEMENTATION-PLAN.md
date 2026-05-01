@@ -141,11 +141,21 @@ Notes:
 
 Goal: create the user's first private workspace.
 
+Status: implemented with manual first-workspace creation.
+
 Acceptance criteria:
 
 - Signed-in user can create a workspace.
 - Workspace membership is recorded.
 - App queries are scoped to the active workspace.
+
+Notes:
+
+- Adds the first schema migration for `profiles`, `workspaces`, and `workspace_members`.
+- Enables RLS on all three tables.
+- Uses a private RLS helper for initial owner membership creation to avoid circular policy checks.
+- Uses the earliest membership as the active workspace until a workspace switcher exists.
+- Adds `/app/workspace`; `/app` redirects there until a workspace exists.
 
 ### Issue 1.3: Add worlds
 

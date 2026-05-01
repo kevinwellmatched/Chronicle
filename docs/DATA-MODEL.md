@@ -24,18 +24,26 @@ Library content is reusable. World content is setting-specific. Campaign content
 
 Supabase Auth profile extension.
 
-Suggested fields:
+Status: implemented in `20260501112958_workspace_foundation.sql`.
 
-- `id uuid primary key references auth.users(id)`
+Fields:
+
+- `id uuid primary key references auth.users(id) on delete cascade`
 - `display_name text`
 - `created_at timestamptz`
 - `updated_at timestamptz`
+
+RLS:
+
+- Signed-in users can select, insert, and update only their own profile.
 
 ### `workspaces`
 
 Top-level private container.
 
-Suggested fields:
+Status: implemented in `20260501112958_workspace_foundation.sql`.
+
+Fields:
 
 - `id uuid primary key`
 - `name text`
@@ -44,17 +52,31 @@ Suggested fields:
 - `created_at timestamptz`
 - `updated_at timestamptz`
 
+RLS:
+
+- Signed-in users can create workspaces where `created_by` is their user ID.
+- Signed-in users can select workspaces they created or belong to through `workspace_members`.
+- Workspace owners can update workspaces.
+
 ### `workspace_members`
 
 Membership table, even if MVP starts with one owner.
 
-Suggested fields:
+Status: implemented in `20260501112958_workspace_foundation.sql`.
+
+Fields:
 
 - `id uuid primary key`
 - `workspace_id uuid references workspaces(id)`
 - `user_id uuid references profiles(id)`
 - `role text`
 - `created_at timestamptz`
+
+RLS:
+
+- Signed-in users can select their own membership rows.
+- Workspace creators can create their own initial `owner` membership.
+- Initial owner membership creation uses a private helper function from `20260501120228_fix_workspace_member_insert_policy.sql` to avoid circular RLS checks between `workspaces` and `workspace_members`.
 
 Initial roles:
 
