@@ -179,11 +179,20 @@ Notes:
 
 Goal: create active play instances from worlds.
 
+Status: implemented with active-workspace campaign creation and listing.
+
 Acceptance criteria:
 
 - User can create a campaign linked to a world.
 - User can list campaigns.
 - Campaigns do not mutate world lore by default.
+
+Notes:
+
+- Adds the `campaigns` table with RLS scoped through workspace membership.
+- Adds `/app/campaigns` for creating and listing non-archived campaigns.
+- Campaign creation requires an active non-archived world in the current workspace.
+- Campaign detail pages, campaign notes, and play-state entries remain deferred.
 
 ### Issue 1.5: Add entries CRUD
 

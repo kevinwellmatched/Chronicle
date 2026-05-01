@@ -112,7 +112,9 @@ RLS:
 
 Active play instances linked to worlds.
 
-Suggested fields:
+Status: implemented in `20260501193204_add_campaigns.sql` and `20260501193246_add_campaigns_world_workspace_index.sql`.
+
+Fields:
 
 - `id uuid primary key`
 - `workspace_id uuid references workspaces(id)`
@@ -131,6 +133,13 @@ Initial statuses:
 - `active`
 - `paused`
 - `archived`
+
+RLS:
+
+- Signed-in workspace members can create campaigns in their active workspace.
+- Signed-in workspace members can select campaigns in workspaces they belong to.
+- Signed-in workspace members can update campaigns in workspaces they belong to.
+- Campaigns must reference a world in the same workspace and do not mutate world lore.
 
 ### `entries`
 

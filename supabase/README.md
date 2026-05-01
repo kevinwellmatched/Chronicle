@@ -46,7 +46,9 @@ The planned MVP migration order is:
 2. Worlds:
    - `20260501190959_add_worlds.sql`
    - `20260501191148_add_worlds_created_by_index.sql`
-3. Campaigns.
+3. Campaigns:
+   - `20260501193204_add_campaigns.sql`
+   - `20260501193246_add_campaigns_world_workspace_index.sql`
 4. Entries with hierarchy, Markdown content, type, and visibility.
 5. Tags and entry tags.
 6. Entry links and backlinks.
