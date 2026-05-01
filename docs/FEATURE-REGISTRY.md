@@ -12,7 +12,7 @@ Feature status values:
 | --- | --- | --- | --- | --- | --- | --- |
 | Documentation spine | Foundation | Implemented | 0 | Root docs, architecture summary, roadmap, data model, MVP scope, agent runbook. | None | First PR only. |
 | Next.js app scaffold | Foundation | Implemented | 0 | Minimal app using TypeScript and Tailwind. | Documentation spine | Includes a Chronicle-branded shell only; no product features yet. |
-| Supabase client setup | Foundation | Planned | 0 | Client/server configuration pattern without secrets. | App scaffold | Service role keys must never enter client code. |
+| Supabase client setup | Foundation | Implemented | 0 | Client/server/proxy configuration pattern without secrets. | App scaffold | Uses publishable key env vars; service role keys must never enter client code. |
 | Auth shell | Foundation | Planned | 1 | Sign-in/sign-out flow using Supabase Auth. | Supabase setup | Required before workspace features. |
 | Workspace model | Foundation | Planned | 1 | One private workspace per user initially, multi-workspace-compatible model. | Auth shell | Use `workspace_members` for future expansion. |
 | World creation | Worldbuilding | Planned | 1 | Create and list reusable setting containers. | Workspace model | Worlds can exist without campaigns. |

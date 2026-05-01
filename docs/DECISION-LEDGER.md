@@ -73,3 +73,11 @@ Durable decisions live here so agents do not rediscover or reverse them casually
 - **Decision:** Future import workflows must treat user-provided copyrighted material as private user data and must not support DRM bypass, proprietary scraping, or public redistribution.
 - **Reason:** The product is for private personal use and must avoid workflows designed to misuse copyrighted content.
 - **Consequences:** Imported content should enter draft library content with source attribution and review before application to worlds or campaigns.
+
+## DEC-0010: Supabase SSR Client Pattern
+
+- **Date:** 2026-05-01
+- **Status:** Accepted
+- **Decision:** Use `@supabase/ssr` with separate browser, server, and proxy helpers. Use `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+- **Reason:** Supabase's current Next.js App Router guidance uses cookie-aware SSR clients and publishable keys. This keeps auth/session handling ready for future protected routes without adding auth UI in Issue 0.4.
+- **Consequences:** Do not use deprecated auth-helper packages. Do not expose service-role or secret keys in client code. Keep environment lookup lazy so builds do not fail before `.env.local` is configured.
