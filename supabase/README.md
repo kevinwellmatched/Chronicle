@@ -8,7 +8,7 @@ This folder tracks database-related project files for Chronicle Engine.
 - Project ref: `tgvnpsaqkhmnxiledknv`
 - Project URL: `https://tgvnpsaqkhmnxiledknv.supabase.co`
 - Auth shell: private magic-link sign-in through `/login` and `/auth/confirm`
-- Schema migrations: not started
+- Schema migrations: started with workspace foundation
 - Seed data: not started
 
 ## Auth Notes
@@ -40,7 +40,9 @@ This folder tracks database-related project files for Chronicle Engine.
 
 The planned MVP migration order is:
 
-1. Auth profile and workspace foundation.
+1. Auth profile and workspace foundation:
+   - `20260501112958_workspace_foundation.sql`
+   - `20260501120228_fix_workspace_member_insert_policy.sql`
 2. Worlds and campaigns.
 3. Entries with hierarchy, Markdown content, type, and visibility.
 4. Tags and entry tags.
