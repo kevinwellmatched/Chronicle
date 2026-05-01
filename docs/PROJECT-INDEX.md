@@ -8,7 +8,7 @@ The project must stay legally and architecturally independent from proprietary T
 
 ## Current Phase
 
-**Phase 0: Foundation and Planning**
+**Phase 1: Wiki Core**
 
 Current repository state:
 
@@ -16,16 +16,18 @@ Current repository state:
 - Minimal Next.js app scaffold
 - Supabase client configuration pattern
 - Supabase migration folder and database convention
-- No runtime product features yet
+- Private Supabase Auth shell with magic-link sign-in, sign-out, and protected `/app`
+- No workspace, world, campaign, entry, or product database schema yet
 
 ## Current App Capabilities
 
-The app currently has a minimal Chronicle-branded Next.js shell only. The first product capability target remains MVP 0.1: Private World/Campaign Wiki.
+The app currently has a Chronicle-branded public shell, a private `/login` magic-link flow, and a protected `/app` shell. The next product capability target remains the MVP 0.1 workspace foundation.
 
 ## Major Directories
 
 - `/docs`: Product, architecture, roadmap, and agent planning documents.
 - `/src/app`: Next.js App Router routes.
+- `/src/lib/auth`: Auth redirect helpers.
 - `/src/lib/supabase`: Supabase browser, server, and proxy helpers.
 - `/src/lib/env.ts`: Required environment variable accessors.
 - `/supabase`: Supabase migration, seed, and database convention files.
@@ -59,12 +61,12 @@ The app currently has a minimal Chronicle-branded Next.js shell only. The first 
 
 ## Current Known Limitations
 
-- No authentication.
 - No database schema.
 - No schema migrations.
 - No deployment configuration.
+- Auth is sign-in only. Allowed users must already exist in Supabase Auth.
 
 ## Next Recommended Tasks
 
-1. Implement auth shell and workspace foundation.
+1. Implement workspace foundation.
 2. Add worlds, campaigns, entries, hierarchy, tags, search, visibility, and export in small PRs.

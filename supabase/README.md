@@ -7,8 +7,16 @@ This folder tracks database-related project files for Chronicle Engine.
 - Supabase project: `Chronicle`
 - Project ref: `tgvnpsaqkhmnxiledknv`
 - Project URL: `https://tgvnpsaqkhmnxiledknv.supabase.co`
+- Auth shell: private magic-link sign-in through `/login` and `/auth/confirm`
 - Schema migrations: not started
 - Seed data: not started
+
+## Auth Notes
+
+- Email magic links are the first auth method.
+- The app uses `signInWithOtp` with `shouldCreateUser: false`, so users must already exist in Supabase Auth.
+- Add local and deployed `/auth/confirm` URLs to the Supabase Auth redirect allow list before testing sign-in links.
+- If customizing email templates for SSR, include a token-hash link to `/auth/confirm` or use Supabase's auth-code redirect flow.
 
 ## Migration Rules
 
@@ -44,4 +52,3 @@ The planned MVP migration order is:
 ## Seed Data
 
 `seed.sql` is currently a placeholder. Add seed data only when it helps test or demonstrate a feature.
-
