@@ -36,11 +36,17 @@ export default async function AppHomePage() {
               {workspace.name}
             </h1>
             <p className="mt-1 text-sm text-zinc-400">
-              Active workspace · {workspace.role}
+              Active workspace - {workspace.role}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
+            <Link
+              href="/app/worlds"
+              className="border border-emerald-300/50 bg-emerald-300 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-200"
+            >
+              Worlds
+            </Link>
             <Link
               href="/app/workspace"
               className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.05]"
@@ -75,6 +81,12 @@ export default async function AppHomePage() {
               </span>{" "}
               as their active workspace.
             </p>
+            <Link
+              href="/app/worlds"
+              className="mt-6 inline-flex border border-emerald-300/50 bg-emerald-300 px-4 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-200"
+            >
+              Open worlds
+            </Link>
           </div>
         </div>
       </section>

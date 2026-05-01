@@ -87,7 +87,9 @@ Initial roles:
 
 Reusable setting/lore containers.
 
-Suggested fields:
+Status: implemented in `20260501190959_add_worlds.sql` and `20260501191148_add_worlds_created_by_index.sql`.
+
+Fields:
 
 - `id uuid primary key`
 - `workspace_id uuid references workspaces(id)`
@@ -98,6 +100,13 @@ Suggested fields:
 - `created_at timestamptz`
 - `updated_at timestamptz`
 - `archived_at timestamptz null`
+
+RLS:
+
+- Signed-in workspace members can create worlds in their active workspace.
+- Signed-in workspace members can select worlds in workspaces they belong to.
+- Signed-in workspace members can update worlds in workspaces they belong to.
+- Policies use `private.user_is_workspace_member(workspace_id)` to avoid repeating workspace membership joins in every policy.
 
 ### `campaigns`
 

@@ -1,9 +1,5 @@
-export function createWorkspaceSlug(name: string) {
-  const slug = name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+import { createSlug } from "@/lib/slugs";
 
-  return slug || "workspace";
+export function createWorkspaceSlug(name: string) {
+  return createSlug(name, "workspace");
 }
