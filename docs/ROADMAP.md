@@ -21,7 +21,7 @@ Goal: build the useful private world/campaign wiki foundation.
 
 Deliverables:
 
-- Supabase Auth
+- Supabase Auth: implemented with private magic-link sign-in
 - Workspace model
 - Create/list worlds
 - Create/list campaigns linked to worlds

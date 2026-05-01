@@ -121,12 +121,21 @@ Scope:
 
 Goal: allow sign-in/sign-out using Supabase Auth.
 
+Status: implemented with private email magic-link sign-in.
+
 Acceptance criteria:
 
 - User can sign in.
 - User can sign out.
 - Protected routes redirect unauthenticated users.
 - No secrets are exposed.
+
+Notes:
+
+- Uses Supabase passwordless email auth via `signInWithOtp`.
+- Uses `shouldCreateUser: false`; users must be allowed in Supabase Auth before they can sign in.
+- Adds `/login`, `/auth/confirm`, and protected `/app`.
+- The `/auth/confirm` callback accepts Supabase auth-code redirects and token-hash verification links.
 
 ### Issue 1.2: Add workspace model
 

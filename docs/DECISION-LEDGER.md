@@ -89,3 +89,11 @@ Durable decisions live here so agents do not rediscover or reverse them casually
 - **Decision:** Track database schema work through committed Supabase migration files under `/supabase/migrations`.
 - **Reason:** The project needs a repeatable database history that Codex, GitHub, Vercel, and Supabase can all inspect. Dashboard-only schema changes are too easy to lose or forget.
 - **Consequences:** Future schema PRs must include migrations, update `/docs/DATA-MODEL.md`, and enable RLS on exposed tables before player-facing access exists.
+
+## DEC-0012: Private Magic-Link Auth First
+
+- **Date:** 2026-05-01
+- **Status:** Accepted
+- **Decision:** Implement the first auth shell with Supabase email magic links, sign-in only, and `shouldCreateUser: false`.
+- **Reason:** Chronicle is private personal-use software. Magic-link sign-in keeps the first Phase 1 PR small and avoids password reset, public signup, and account lifecycle scope.
+- **Consequences:** Allowed users must be created or invited in Supabase Auth before they can sign in. The app must configure Supabase redirect URLs for local and deployed `/auth/confirm` callbacks.
