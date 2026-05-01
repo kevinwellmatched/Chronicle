@@ -12,19 +12,20 @@ The project must stay legally and architecturally independent from proprietary T
 
 Current repository state:
 
-- Docs-only project foundation
-- No app scaffold yet
+- Documentation spine
+- Minimal Next.js app scaffold
 - No database migrations yet
 - No runtime product features yet
 
 ## Current App Capabilities
 
-None yet. The first product capability target is MVP 0.1: Private World/Campaign Wiki.
+The app currently has a minimal Chronicle-branded Next.js shell only. The first product capability target remains MVP 0.1: Private World/Campaign Wiki.
 
 ## Major Directories
 
 - `/docs`: Product, architecture, roadmap, and agent planning documents.
-- Future `/app`: Next.js App Router routes.
+- `/src/app`: Next.js App Router routes.
+- Future `/public`: Static public assets.
 - Future `/components`: Shared React components.
 - Future `/lib`: Supabase clients, data access helpers, utilities, and server logic.
 - Future `/types`: Shared TypeScript types.
@@ -54,18 +55,15 @@ None yet. The first product capability target is MVP 0.1: Private World/Campaign
 
 ## Current Known Limitations
 
-- No scaffolded application.
 - No authentication.
 - No database schema.
 - No migrations.
-- No CI checks.
 - No deployment configuration.
 
 ## Next Recommended Tasks
 
-1. Initialize a minimal Next.js app with TypeScript and Tailwind.
-2. Add lint, typecheck, build, and test command strategy.
-3. Add Supabase client configuration pattern without committing secrets.
-4. Create initial Supabase migration folder.
-5. Implement auth shell and workspace foundation.
-6. Add worlds, campaigns, entries, hierarchy, tags, search, visibility, and export in small PRs.
+1. Add or refine project check commands, including a typecheck script.
+2. Add Supabase client configuration pattern without committing secrets.
+3. Create initial Supabase migration folder.
+4. Implement auth shell and workspace foundation.
+5. Add worlds, campaigns, entries, hierarchy, tags, search, visibility, and export in small PRs.
