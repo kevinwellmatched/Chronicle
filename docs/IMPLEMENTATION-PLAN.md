@@ -161,11 +161,19 @@ Notes:
 
 Goal: create and list reusable setting containers.
 
+Status: implemented with active-workspace world creation and listing.
+
 Acceptance criteria:
 
 - User can create a world.
 - User can list worlds in the workspace.
 - Archived worlds are excluded from default views.
+
+Notes:
+
+- Adds the `worlds` table with RLS scoped through workspace membership.
+- Adds `/app/worlds` for creating and listing non-archived worlds.
+- World detail pages, campaigns, and entries remain deferred to later issues.
 
 ### Issue 1.4: Add campaigns linked to worlds
 

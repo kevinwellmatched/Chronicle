@@ -43,13 +43,16 @@ The planned MVP migration order is:
 1. Auth profile and workspace foundation:
    - `20260501112958_workspace_foundation.sql`
    - `20260501120228_fix_workspace_member_insert_policy.sql`
-2. Worlds and campaigns.
-3. Entries with hierarchy, Markdown content, type, and visibility.
-4. Tags and entry tags.
-5. Entry links and backlinks.
-6. Sessions and campaign notes.
-7. Export-supporting metadata and clone/fork records.
-8. RLS policies for owner/member access and GM-only safety.
+2. Worlds:
+   - `20260501190959_add_worlds.sql`
+   - `20260501191148_add_worlds_created_by_index.sql`
+3. Campaigns.
+4. Entries with hierarchy, Markdown content, type, and visibility.
+5. Tags and entry tags.
+6. Entry links and backlinks.
+7. Sessions and campaign notes.
+8. Export-supporting metadata and clone/fork records.
+9. RLS policies for owner/member access and GM-only safety.
 
 ## Seed Data
 
