@@ -107,6 +107,8 @@ Scope:
 
 Goal: make schema changes trackable from the start.
 
+Status: implemented in the `codex/supabase-migration-convention` branch.
+
 Scope:
 
 - `supabase/migrations`
