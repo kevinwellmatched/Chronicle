@@ -145,13 +145,14 @@ RLS:
 
 Universal content primitive.
 
-Suggested fields:
+Status: implemented in `20260501204856_add_entries.sql` and `20260501205442_add_entries_scope_indexes.sql`.
+
+Fields:
 
 - `id uuid primary key`
 - `workspace_id uuid references workspaces(id)`
 - `world_id uuid references worlds(id) null`
 - `campaign_id uuid references campaigns(id) null`
-- `parent_id uuid references entries(id) null`
 - `type text`
 - `title text`
 - `slug text`
@@ -160,7 +161,6 @@ Suggested fields:
 - `content_format text default 'markdown'`
 - `custom_fields jsonb default '{}'::jsonb`
 - `visibility text`
-- `source_id uuid null`
 - `sort_order integer default 0`
 - `created_by uuid references profiles(id)`
 - `created_at timestamptz`
@@ -185,6 +185,20 @@ Initial visibility states:
 - `player_visible`
 - `revealed`
 - `archived`
+
+Scope rules:
+
+- Entries must belong to at least one real scope: a world, a campaign, or both.
+- If both `world_id` and `campaign_id` are present, the campaign must belong to the selected world.
+- World, campaign, and entry rows must share the same `workspace_id`.
+- True unfiled/orphan drafts are deferred until there is an explicit workspace draft area.
+
+RLS:
+
+- Signed-in workspace members can create entries in their active workspace.
+- Signed-in workspace members can select entries in workspaces they belong to.
+- Signed-in workspace members can update entries in workspaces they belong to.
+- Player-facing visibility filtering is deferred until player routes exist, but `visibility` is stored now.
 
 ### `tags`
 

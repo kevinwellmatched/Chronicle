@@ -25,7 +25,7 @@ Deliverables:
 - Workspace model: implemented with manual first-workspace creation
 - Create/list worlds: implemented for active workspace
 - Create/list campaigns linked to worlds: implemented for active workspace
-- Create/edit/archive entries
+- Create/edit/archive entries: implemented for active workspace
 - Nested entry hierarchy
 - Markdown editor/viewer
 - Tags

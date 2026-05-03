@@ -42,8 +42,14 @@ export default async function AppHomePage() {
 
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/app/campaigns"
+              href="/app/entries"
               className="border border-emerald-300/50 bg-emerald-300 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-200"
+            >
+              Entries
+            </Link>
+            <Link
+              href="/app/campaigns"
+              className="border border-white/10 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.05]"
             >
               Campaigns
             </Link>
@@ -88,16 +94,16 @@ export default async function AppHomePage() {
               as their active workspace.
             </p>
             <Link
-              href="/app/campaigns"
+              href="/app/entries"
               className="mt-6 inline-flex border border-emerald-300/50 bg-emerald-300 px-4 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-200"
             >
-              Open campaigns
+              Open entries
             </Link>
             <Link
-              href="/app/worlds"
+              href="/app/campaigns"
               className="ml-3 mt-6 inline-flex border border-white/10 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.05]"
             >
-              Open worlds
+              Open campaigns
             </Link>
           </div>
         </div>

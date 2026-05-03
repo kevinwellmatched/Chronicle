@@ -20,11 +20,11 @@ Current repository state:
 - Workspace foundation with `profiles`, `workspaces`, and `workspace_members`
 - World foundation with active-workspace world creation and listing
 - Campaign foundation with active-workspace campaign creation and listing
-- No entry or content database schema yet
+- Entries foundation with active-workspace create/list/view/edit/archive flow
 
 ## Current App Capabilities
 
-The app currently has a Chronicle-branded public shell, a private `/login` magic-link flow, a protected `/app` shell, manual first-workspace creation at `/app/workspace`, active-workspace world creation/listing at `/app/worlds`, and campaign creation/listing at `/app/campaigns`. The next product capability target is entries CRUD.
+The app currently has a Chronicle-branded public shell, a private `/login` magic-link flow, a protected `/app` shell, manual first-workspace creation at `/app/workspace`, active-workspace world creation/listing at `/app/worlds`, campaign creation/listing at `/app/campaigns`, and Markdown entry CRUD at `/app/entries`.
 
 ## Major Directories
 
@@ -33,6 +33,7 @@ The app currently has a Chronicle-branded public shell, a private `/login` magic
 - `/src/lib/auth`: Auth redirect helpers.
 - `/src/lib/supabase`: Supabase browser, server, and proxy helpers.
 - `/src/lib/workspaces`: Workspace query and slug helpers.
+- `/src/lib/entries`: Entry constants, validation, slug, and query helpers.
 - `/src/lib/env.ts`: Required environment variable accessors.
 - `/supabase`: Supabase migration, seed, and database convention files.
 - `/supabase/migrations`: Database migrations.
@@ -65,12 +66,12 @@ The app currently has a Chronicle-branded public shell, a private `/login` magic
 
 ## Current Known Limitations
 
-- No entry, tag, search, visibility, or export features.
+- No hierarchy, tags, search, player-facing visibility enforcement, or export features.
 - No deployment configuration.
 - Auth is sign-in only. Allowed users must already exist in Supabase Auth.
 - Only the first workspace is selected as active; workspace switching is deferred.
 
 ## Next Recommended Tasks
 
-1. Add entries CRUD.
-2. Add hierarchy, tags, search, visibility, and export in small PRs.
+1. Add nested entry hierarchy.
+2. Add tags, search, player-facing visibility enforcement, and export in small PRs.
