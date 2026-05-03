@@ -198,12 +198,21 @@ Notes:
 
 Goal: create the universal wiki primitive.
 
+Status: implemented with active-workspace Markdown entry creation, editing, and archiving.
+
 Acceptance criteria:
 
 - User can create, view, edit, and archive entries.
-- Entries can belong to a world or campaign.
+- Entries can belong to a world, campaign, or both.
 - Entry bodies use Markdown.
 - Entry type and visibility are stored.
+
+Notes:
+
+- Adds the `entries` table with RLS scoped through workspace membership.
+- Adds `/app/entries` for listing and creating non-archived entries.
+- Adds `/app/entries/[entryId]` for viewing, editing, and archiving an entry.
+- Entries must belong to at least one real scope; unfiled/orphan drafts are deferred.
 
 ### Issue 1.6: Add nested entry hierarchy
 

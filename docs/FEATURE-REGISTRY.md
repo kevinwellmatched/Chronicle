@@ -18,13 +18,13 @@ Feature status values:
 | Workspace model | Foundation | Implemented | 1 | One private workspace can be created and selected as the active app scope. | Auth shell | Adds `profiles`, `workspaces`, and `workspace_members` with RLS. |
 | World creation | Worldbuilding | Implemented | 1 | Create and list reusable setting containers in the active workspace. | Workspace model | Lists non-archived worlds; detail pages and entries are deferred. |
 | Campaign creation | Campaign Management | Implemented | 1 | Create and list campaigns linked to active-workspace worlds. | World creation | Campaigns hold play-state; campaign detail and notes are deferred. |
-| Entries CRUD | Worldbuilding | Planned | 1 | Create, read, update, archive/delete entries. | Worlds, campaigns | Universal content primitive. |
+| Entries CRUD | Worldbuilding | Implemented | 1 | Create, read, update, and archive Markdown entries. | Worlds, campaigns | Universal content primitive; entries can belong to a world, campaign, or both. |
 | Nested hierarchy | Worldbuilding | Planned | 1 | Parent/child entry tree. | Entries CRUD | Keep simple adjacency list first. |
 | Markdown editor | Worldbuilding | Planned | 1 | Markdown-first entry editing and viewing. | Entries CRUD | Rich text editor deferred. |
 | Entry types/templates | Worldbuilding | Planned | 1 | Basic types such as NPC, location, faction, quest, and session note. | Entries CRUD | Use `type` plus optional `custom_fields`. |
 | Tags | Worldbuilding | Planned | 1 | Workspace-scoped tags and entry tagging. | Entries CRUD | Needed for browsing/search. |
 | Basic search | Worldbuilding | Planned | 1 | PostgreSQL-backed search over entries. | Entries CRUD | External search deferred. |
-| Visibility states | Permissions | Planned | 1 | `private_gm`, `player_visible`, `revealed`, `archived`. | Entries CRUD, auth | Must be respected in queries/RLS. |
+| Visibility states | Permissions | Planned | 1 | `private_gm`, `player_visible`, `revealed`, `archived`. | Entries CRUD, auth | Entry-level states are stored; player-safe filtering remains deferred until player routes exist. |
 | Basic export | Portability | Planned | 1 | Export entries as Markdown and structured JSON backup. | Entries CRUD | Export early to avoid lock-in. |
 | Library core | Library | Planned | 2 | Systems, sources, reusable library entries, attribution, content browsing. | Wiki core | Comes after MVP wiki foundation. |
 | World/campaign overlays | Campaign Management | Planned | 3 | Campaign-specific state over reusable world lore. | World/campaign model | Avoid mutating world truth for play-state. |
