@@ -26,7 +26,7 @@ Deliverables:
 - Create/list worlds: implemented for active workspace
 - Create/list campaigns linked to worlds: implemented for active workspace
 - Create/edit/archive entries: implemented for active workspace
-- Nested entry hierarchy
+- Nested entry hierarchy: implemented with same-scope parent selection
 - Markdown editor/viewer
 - Tags
 - Basic PostgreSQL search

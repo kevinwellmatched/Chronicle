@@ -218,11 +218,20 @@ Notes:
 
 Goal: organize entries into parent/child trees.
 
+Status: implemented with same-scope parent selection and a stable nested entries list.
+
 Acceptance criteria:
 
 - User can set an entry parent.
 - Entry tree renders in a stable order.
 - Moving an entry does not change its content.
+
+Notes:
+
+- Adds `parent_id` to `entries`.
+- Parent entries must be active, in the same workspace, and in the same world/campaign scope.
+- A database trigger rejects self-parenting and parent cycles.
+- Drag-and-drop ordering remains deferred.
 
 ### Issue 1.7: Add tags
 
