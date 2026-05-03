@@ -2,12 +2,14 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { getLoginPath } from "@/lib/auth/redirect";
+import { getEligibleParentOptions } from "@/lib/entries/hierarchy";
 import {
   ENTRY_TYPES,
   formatEntryType,
   formatEntryVisibility,
   getEditableVisibilities,
   getEntryForEdit,
+  listEntryParentOptions,
   listEntryScopeOptions,
 } from "@/lib/entries/server";
 import { createClient } from "@/lib/supabase/server";
@@ -42,8 +44,9 @@ export default async function EntryPage({
     redirect("/app/workspace");
   }
 
-  const [entry, scopeOptions] = await Promise.all([
+  const [entry, parentOptions, scopeOptions] = await Promise.all([
     getEntryForEdit(workspace.id, entryId),
+    listEntryParentOptions(workspace.id),
     listEntryScopeOptions(workspace.id),
   ]);
 
@@ -53,6 +56,11 @@ export default async function EntryPage({
 
   const updateEntryWithId = updateEntry.bind(null, entry.id);
   const archiveEntryWithId = archiveEntry.bind(null, entry.id);
+  const eligibleParentOptions = getEligibleParentOptions(parentOptions, {
+    campaignId: entry.campaignId,
+    currentEntryId: entry.id,
+    worldId: entry.worldId,
+  });
 
   return (
     <main className="min-h-screen bg-[#0b0d10] text-zinc-100">
@@ -173,6 +181,22 @@ export default async function EntryPage({
                 </select>
               </label>
             </div>
+
+            <label className="block">
+              <span className="text-sm font-medium text-zinc-200">Parent</span>
+              <select
+                name="parentId"
+                className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 text-base text-white outline-none transition focus:border-emerald-300"
+                defaultValue={entry.parentId ?? ""}
+              >
+                <option value="">No parent</option>
+                {eligibleParentOptions.map((parent) => (
+                  <option key={parent.id} value={parent.id}>
+                    {parent.title}
+                  </option>
+                ))}
+              </select>
+            </label>
 
             <label className="block">
               <span className="text-sm font-medium text-zinc-200">

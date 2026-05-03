@@ -66,12 +66,12 @@ The app currently has a Chronicle-branded public shell, a private `/login` magic
 
 ## Current Known Limitations
 
-- No hierarchy, tags, search, player-facing visibility enforcement, or export features.
+- No tags, search, player-facing visibility enforcement, or export features.
 - No deployment configuration.
 - Auth is sign-in only. Allowed users must already exist in Supabase Auth.
 - Only the first workspace is selected as active; workspace switching is deferred.
 
 ## Next Recommended Tasks
 
-1. Add nested entry hierarchy.
-2. Add tags, search, player-facing visibility enforcement, and export in small PRs.
+1. Add tags.
+2. Add search, player-facing visibility enforcement, and export in small PRs.

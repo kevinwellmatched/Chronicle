@@ -4,10 +4,12 @@ import { redirect } from "next/navigation";
 import { getLoginPath } from "@/lib/auth/redirect";
 import {
   ENTRY_TYPES,
+  type EntryListTreeItem,
   formatEntryType,
   formatEntryVisibility,
   getEditableVisibilities,
-  listActiveEntries,
+  listActiveEntryTree,
+  listEntryParentOptions,
   listEntryScopeOptions,
 } from "@/lib/entries/server";
 import { createClient } from "@/lib/supabase/server";
@@ -36,8 +38,9 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
     redirect("/app/workspace");
   }
 
-  const [entries, scopeOptions] = await Promise.all([
-    listActiveEntries(workspace.id),
+  const [entryTree, parentOptions, scopeOptions] = await Promise.all([
+    listActiveEntryTree(workspace.id),
+    listEntryParentOptions(workspace.id),
     listEntryScopeOptions(workspace.id),
   ]);
   const hasScopes =
@@ -87,36 +90,10 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
 
         <div className="grid gap-6 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
           <section className="min-w-0">
-            {entries.length > 0 ? (
+            {entryTree.length > 0 ? (
               <div className="grid gap-4">
-                {entries.map((entry) => (
-                  <Link
-                    key={entry.id}
-                    href={`/app/entries/${entry.id}`}
-                    className="border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/20 hover:bg-white/[0.06]"
-                  >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">
-                          {formatEntryType(entry.type)}
-                        </p>
-                        <h2 className="mt-3 text-2xl font-semibold tracking-normal text-white">
-                          {entry.title}
-                        </h2>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="border border-white/10 px-3 py-1 text-sm text-zinc-300">
-                          {formatEntryVisibility(entry.visibility)}
-                        </span>
-                        <span className="border border-white/10 px-3 py-1 text-sm text-zinc-300">
-                          {entry.scopeLabel}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="mt-3 leading-7 text-zinc-300">
-                      {entry.summary || "No summary yet."}
-                    </p>
-                  </Link>
+                {entryTree.map((entry) => (
+                  <EntryTreeCard key={entry.id} entry={entry} />
                 ))}
               </div>
             ) : (
@@ -236,6 +213,24 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
 
                 <label className="block">
                   <span className="text-sm font-medium text-zinc-200">
+                    Parent
+                  </span>
+                  <select
+                    name="parentId"
+                    className="mt-2 w-full border border-white/10 bg-black/30 px-3 py-3 text-base text-white outline-none transition focus:border-emerald-300"
+                    defaultValue=""
+                  >
+                    <option value="">No parent</option>
+                    {parentOptions.map((entry) => (
+                      <option key={entry.id} value={entry.id}>
+                        {entry.title} - {entry.scopeLabel}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="text-sm font-medium text-zinc-200">
                     Summary
                   </span>
                   <textarea
@@ -290,5 +285,52 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
         </div>
       </section>
     </main>
+  );
+}
+
+function EntryTreeCard({
+  entry,
+  depth = 0,
+}: {
+  entry: EntryListTreeItem;
+  depth?: number;
+}) {
+  return (
+    <div className={depth > 0 ? "border-l border-white/10 pl-4" : ""}>
+      <Link
+        href={`/app/entries/${entry.id}`}
+        className="block border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/20 hover:bg-white/[0.06]"
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">
+              {formatEntryType(entry.type)}
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-normal text-white">
+              {entry.title}
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="border border-white/10 px-3 py-1 text-sm text-zinc-300">
+              {formatEntryVisibility(entry.visibility)}
+            </span>
+            <span className="border border-white/10 px-3 py-1 text-sm text-zinc-300">
+              {entry.scopeLabel}
+            </span>
+          </div>
+        </div>
+        <p className="mt-3 leading-7 text-zinc-300">
+          {entry.summary || "No summary yet."}
+        </p>
+      </Link>
+
+      {entry.children.length > 0 ? (
+        <div className="mt-3 grid gap-3">
+          {entry.children.map((child) => (
+            <EntryTreeCard key={child.id} entry={child} depth={depth + 1} />
+          ))}
+        </div>
+      ) : null}
+    </div>
   );
 }

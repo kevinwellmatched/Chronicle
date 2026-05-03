@@ -6,6 +6,7 @@ import {
   type EntryType,
   type EntryVisibility,
 } from "./constants";
+import { buildEntryTree, type EntryTreeNode } from "./hierarchy";
 
 export type EntryListItem = {
   id: string;
@@ -16,6 +17,8 @@ export type EntryListItem = {
   visibility: EntryVisibility;
   worldId: string | null;
   campaignId: string | null;
+  parentId: string | null;
+  sortOrder: number;
   worldName: string | null;
   campaignName: string | null;
   scopeLabel: string;
@@ -25,6 +28,10 @@ export type EntryListItem = {
 export type EntryDetail = EntryListItem & {
   contentMarkdown: string;
 };
+
+export type EntryListTreeItem = EntryTreeNode<EntryListItem>;
+
+export type EntryParentOption = EntryListItem;
 
 export type EntryWorldOption = {
   id: string;
@@ -47,6 +54,8 @@ type EntryRow = {
   visibility: EntryVisibility;
   world_id: string | null;
   campaign_id: string | null;
+  parent_id: string | null;
+  sort_order: number;
   created_at: string;
 };
 
@@ -121,12 +130,14 @@ export async function listActiveEntries(
   const { data, error } = await supabase
     .from("entries")
     .select(
-      "id, title, slug, summary, type, visibility, world_id, campaign_id, created_at",
+      "id, title, slug, summary, type, visibility, world_id, campaign_id, parent_id, sort_order, created_at",
     )
     .eq("workspace_id", workspaceId)
     .is("archived_at", null)
     .neq("visibility", "archived")
-    .order("created_at", { ascending: false })
+    .order("sort_order", { ascending: true })
+    .order("title", { ascending: true })
+    .order("created_at", { ascending: true })
     .returns<EntryRow[]>();
 
   if (error || !data) {
@@ -134,6 +145,18 @@ export async function listActiveEntries(
   }
 
   return hydrateEntryRows(workspaceId, data);
+}
+
+export async function listActiveEntryTree(
+  workspaceId: string,
+): Promise<EntryListTreeItem[]> {
+  return buildEntryTree(await listActiveEntries(workspaceId));
+}
+
+export async function listEntryParentOptions(
+  workspaceId: string,
+): Promise<EntryParentOption[]> {
+  return listActiveEntries(workspaceId);
 }
 
 export async function getEntryForEdit(
@@ -144,7 +167,7 @@ export async function getEntryForEdit(
   const { data, error } = await supabase
     .from("entries")
     .select(
-      "id, title, slug, summary, content_markdown, type, visibility, world_id, campaign_id, created_at",
+      "id, title, slug, summary, content_markdown, type, visibility, world_id, campaign_id, parent_id, sort_order, created_at",
     )
     .eq("workspace_id", workspaceId)
     .eq("id", entryId)
@@ -231,6 +254,8 @@ async function hydrateEntryRows(
       visibility: entry.visibility,
       worldId: entry.world_id,
       campaignId: entry.campaign_id,
+      parentId: entry.parent_id,
+      sortOrder: entry.sort_order,
       worldName,
       campaignName,
       scopeLabel: formatEntryScopeLabel(worldName, campaignName),

@@ -52,7 +52,9 @@ The planned MVP migration order is:
 4. Entries:
    - `20260501204856_add_entries.sql`
    - `20260501205442_add_entries_scope_indexes.sql`
-5. Nested entry hierarchy.
+5. Nested entry hierarchy:
+   - `20260503031854_add_entry_hierarchy.sql`
+   - `20260503032331_harden_entry_hierarchy_scope.sql`
 6. Tags and entry tags.
 7. Entry links and backlinks.
 8. Sessions and campaign notes.

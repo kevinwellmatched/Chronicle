@@ -145,7 +145,7 @@ RLS:
 
 Universal content primitive.
 
-Status: implemented in `20260501204856_add_entries.sql` and `20260501205442_add_entries_scope_indexes.sql`.
+Status: implemented in `20260501204856_add_entries.sql`, `20260501205442_add_entries_scope_indexes.sql`, `20260503031854_add_entry_hierarchy.sql`, and `20260503032331_harden_entry_hierarchy_scope.sql`.
 
 Fields:
 
@@ -153,6 +153,7 @@ Fields:
 - `workspace_id uuid references workspaces(id)`
 - `world_id uuid references worlds(id) null`
 - `campaign_id uuid references campaigns(id) null`
+- `parent_id uuid references entries(id) null`
 - `type text`
 - `title text`
 - `slug text`
@@ -191,6 +192,9 @@ Scope rules:
 - Entries must belong to at least one real scope: a world, a campaign, or both.
 - If both `world_id` and `campaign_id` are present, the campaign must belong to the selected world.
 - World, campaign, and entry rows must share the same `workspace_id`.
+- Parent entries must be in the same workspace and same world/campaign scope as their child.
+- Entry hierarchy cannot point an entry at itself or create a parent cycle.
+- Entries with active children cannot change world/campaign scope unless their active children already match the new scope.
 - True unfiled/orphan drafts are deferred until there is an explicit workspace draft area.
 
 RLS:

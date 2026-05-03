@@ -19,7 +19,7 @@ Feature status values:
 | World creation | Worldbuilding | Implemented | 1 | Create and list reusable setting containers in the active workspace. | Workspace model | Lists non-archived worlds; detail pages and entries are deferred. |
 | Campaign creation | Campaign Management | Implemented | 1 | Create and list campaigns linked to active-workspace worlds. | World creation | Campaigns hold play-state; campaign detail and notes are deferred. |
 | Entries CRUD | Worldbuilding | Implemented | 1 | Create, read, update, and archive Markdown entries. | Worlds, campaigns | Universal content primitive; entries can belong to a world, campaign, or both. |
-| Nested hierarchy | Worldbuilding | Planned | 1 | Parent/child entry tree. | Entries CRUD | Keep simple adjacency list first. |
+| Nested hierarchy | Worldbuilding | Implemented | 1 | Parent/child entry tree. | Entries CRUD | Same-scope adjacency list; drag-and-drop ordering deferred. |
 | Markdown editor | Worldbuilding | Planned | 1 | Markdown-first entry editing and viewing. | Entries CRUD | Rich text editor deferred. |
 | Entry types/templates | Worldbuilding | Planned | 1 | Basic types such as NPC, location, faction, quest, and session note. | Entries CRUD | Use `type` plus optional `custom_fields`. |
 | Tags | Worldbuilding | Planned | 1 | Workspace-scoped tags and entry tagging. | Entries CRUD | Needed for browsing/search. |

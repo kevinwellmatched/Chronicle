@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { getLoginPath } from "@/lib/auth/redirect";
+import { getEligibleParentOptions } from "@/lib/entries/hierarchy";
 import { createEntrySlug } from "@/lib/entries/slug";
 import {
   isEntryType,
@@ -30,6 +31,7 @@ type EntryFormInput = {
   visibility: string;
   worldId: string;
   campaignId: string;
+  parentId: string;
 };
 
 function redirectWithListError(message: string): never {
@@ -49,6 +51,7 @@ function parseEntryFormData(formData: FormData): EntryFormInput {
     visibility: String(formData.get("visibility") ?? "").trim(),
     worldId: String(formData.get("worldId") ?? "").trim(),
     campaignId: String(formData.get("campaignId") ?? "").trim(),
+    parentId: String(formData.get("parentId") ?? "").trim(),
   };
 }
 
@@ -121,6 +124,101 @@ async function validateEntryScope(
   return null;
 }
 
+async function validateEntryParent(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  workspaceId: string,
+  input: EntryFormInput,
+  currentEntryId?: string,
+) {
+  if (!input.parentId) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("entries")
+    .select("id, title, world_id, campaign_id, parent_id, sort_order, created_at")
+    .eq("workspace_id", workspaceId)
+    .is("archived_at", null)
+    .neq("visibility", "archived")
+    .returns<
+      {
+        id: string;
+        title: string;
+        world_id: string | null;
+        campaign_id: string | null;
+        parent_id: string | null;
+        sort_order: number;
+        created_at: string;
+      }[]
+    >();
+
+  if (error || !data) {
+    return "Could not validate the selected parent entry.";
+  }
+
+  const eligibleParents = getEligibleParentOptions(
+    data.map((entry) => ({
+      id: entry.id,
+      title: entry.title,
+      worldId: entry.world_id,
+      campaignId: entry.campaign_id,
+      parentId: entry.parent_id,
+      sortOrder: entry.sort_order,
+      createdAt: entry.created_at,
+    })),
+    {
+      currentEntryId,
+      worldId: input.worldId || null,
+      campaignId: input.campaignId || null,
+    },
+  );
+
+  if (!eligibleParents.some((entry) => entry.id === input.parentId)) {
+    return "Choose an active parent entry in the same scope.";
+  }
+
+  return null;
+}
+
+async function validateChildScopes(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  workspaceId: string,
+  input: EntryFormInput,
+  currentEntryId: string,
+) {
+  const { data, error } = await supabase
+    .from("entries")
+    .select("id, world_id, campaign_id")
+    .eq("workspace_id", workspaceId)
+    .eq("parent_id", currentEntryId)
+    .is("archived_at", null)
+    .neq("visibility", "archived")
+    .returns<
+      {
+        id: string;
+        world_id: string | null;
+        campaign_id: string | null;
+      }[]
+    >();
+
+  if (error || !data) {
+    return "Could not validate child entries.";
+  }
+
+  const nextWorldId = input.worldId || null;
+  const nextCampaignId = input.campaignId || null;
+  const hasScopeMismatch = data.some(
+    (entry) =>
+      entry.world_id !== nextWorldId || entry.campaign_id !== nextCampaignId,
+  );
+
+  if (hasScopeMismatch) {
+    return "Move or unparent child entries before changing this entry's scope.";
+  }
+
+  return null;
+}
+
 export async function createEntry(formData: FormData) {
   const input = parseEntryFormData(formData);
   const validationErrors = validateEntryInput(input);
@@ -145,6 +243,12 @@ export async function createEntry(formData: FormData) {
     redirectWithListError(scopeError);
   }
 
+  const parentError = await validateEntryParent(supabase, workspace.id, input);
+
+  if (parentError) {
+    redirectWithListError(parentError);
+  }
+
   const { data: entry, error } = await supabase
     .from("entries")
     .insert({
@@ -158,6 +262,7 @@ export async function createEntry(formData: FormData) {
       visibility: input.visibility,
       world_id: input.worldId || null,
       campaign_id: input.campaignId || null,
+      parent_id: input.parentId || null,
       workspace_id: workspace.id,
     })
     .select("id")
@@ -197,6 +302,28 @@ export async function updateEntry(entryId: string, formData: FormData) {
     redirectWithEntryError(entryId, scopeError);
   }
 
+  const parentError = await validateEntryParent(
+    supabase,
+    workspace.id,
+    input,
+    entryId,
+  );
+
+  if (parentError) {
+    redirectWithEntryError(entryId, parentError);
+  }
+
+  const childScopeError = await validateChildScopes(
+    supabase,
+    workspace.id,
+    input,
+    entryId,
+  );
+
+  if (childScopeError) {
+    redirectWithEntryError(entryId, childScopeError);
+  }
+
   const { error } = await supabase
     .from("entries")
     .update({
@@ -208,6 +335,7 @@ export async function updateEntry(entryId: string, formData: FormData) {
       visibility: input.visibility,
       world_id: input.worldId || null,
       campaign_id: input.campaignId || null,
+      parent_id: input.parentId || null,
     })
     .eq("id", entryId)
     .eq("workspace_id", workspace.id);
